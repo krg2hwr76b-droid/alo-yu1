@@ -15,13 +15,8 @@
   }
   .bg-grid{
     position:absolute; inset:0;
-    background-image:
-      linear-gradient(var(--purple) 1px, transparent 1px),
-      linear-gradient(90deg, var(--purple) 1px, transparent 1px);
-    background-size: 40px 40px;
-    opacity:0.15;
-    transform: perspective(500px) rotateX(60deg) translateY(20%);
-    transform-origin: center bottom;
+    background: linear-gradient(135deg, var(--bg1) 0%, var(--bg2) 50%, var(--bg1) 100%);
+    opacity:1;
   }
   .sun{
     position:absolute; left:50%; top:8%; transform:translateX(-50%);
@@ -59,98 +54,21 @@
 
   .character{
     position:relative;
-    width:220px; height:320px;
-  }
-
-  /* HEAD + BODY */
-  .torso{
-    position:absolute; left:50%; top:70px; transform:translateX(-50%);
-    width:90px; height:130px;
-    background: linear-gradient(180deg, #d63c6a, #7b2ff7);
-    border-radius: 40px 40px 30px 30px;
-    box-shadow: 0 0 25px rgba(255,45,149,0.5);
-  }
-  .head{
-    position:absolute; left:50%; top:0; transform:translateX(-50%);
-    width:74px; height:74px; border-radius:50%;
-    background: linear-gradient(180deg, #ffd8b0, #f4b585);
-    box-shadow: 0 0 20px rgba(255,210,63,0.4);
-  }
-  .hair{
-    position:absolute; left:50%; top:-14px; transform:translateX(-50%);
-    width:82px; height:44px;
-    background: linear-gradient(180deg, var(--gold), #ffb703);
-    border-radius: 50% 50% 20% 20%;
-  }
-  .face-line{
-    position:absolute; left:50%; top:46px; transform:translateX(-50%);
-    width:36px; height:6px;
-    border-bottom:3px solid #a15c2a; border-radius:50%;
-  }
-  .tie{
-    position:absolute; left:50%; top:20px; transform:translateX(-50%);
-    width:16px; height:70px;
-    background: linear-gradient(180deg, var(--blue), var(--purple));
-    clip-path: polygon(50% 0, 100% 15%, 65% 100%, 35% 100%, 0 15%);
-  }
-
-  /* ARMS */
-  .arm{
-    position:absolute; top:90px;
-    width:26px; height:80px;
-    background: linear-gradient(180deg, #d63c6a, #7b2ff7);
-    border-radius: 16px;
+    width:280px; height:400px;
     cursor:pointer;
-    transform-origin: top center;
-    transition: filter 0.15s;
   }
-  .arm-left{ left:12px; transform: rotate(18deg);}
-  .arm-right{ right:12px; transform: rotate(-18deg) scaleX(-1);}
-  .arm::after{
-    content:''; position:absolute; bottom:-10px; left:50%; transform:translateX(-50%);
-    width:22px; height:22px; border-radius:50%;
-    background: linear-gradient(180deg, #ffd8b0, #f4b585);
+  .char-img{
+    width:100%; height:100%;
+    object-fit:contain;
+    filter: drop-shadow(0 0 30px rgba(255,45,149,0.6));
   }
-  .arm.hit{ animation: swing 0.35s ease; }
-  @keyframes swing{
-    0%{ transform: rotate(18deg); }
-    40%{ transform: rotate(70deg); }
-    100%{ transform: rotate(18deg); }
+  .character.tap{
+    animation: tapScale 0.2s ease;
   }
-  .arm-right.hit{ animation: swingR 0.35s ease; }
-  @keyframes swingR{
-    0%{ transform: rotate(-18deg) scaleX(-1); }
-    40%{ transform: rotate(-70deg) scaleX(-1); }
-    100%{ transform: rotate(-18deg) scaleX(-1); }
-  }
-
-  /* LEGS */
-  .legs-wrap{
-    position:absolute; left:50%; top:195px; transform:translateX(-50%);
-    width:90px; height:90px; cursor:pointer;
-  }
-  .leg{
-    position:absolute; top:0; width:24px; height:80px;
-    background: linear-gradient(180deg, #1a1a2e, #3d2a5c);
-    border-radius: 10px;
-    transform-origin: top center;
-  }
-  .leg-left{ left:14px; }
-  .leg-right{ right:14px; }
-  .legs-wrap.dancing .leg-left{ animation: kickL 0.5s ease infinite; }
-  .legs-wrap.dancing .leg-right{ animation: kickR 0.5s ease infinite; }
-  @keyframes kickL{
-    0%,100%{ transform: rotate(0deg);} 50%{ transform: rotate(-22deg);}
-  }
-  @keyframes kickR{
-    0%,100%{ transform: rotate(0deg);} 50%{ transform: rotate(22deg);}
-  }
-
-  .glow-ring{
-    position:absolute; left:50%; bottom:-10px; transform:translateX(-50%);
-    width:160px; height:24px; border-radius:50%;
-    background: radial-gradient(ellipse, rgba(0,229,255,0.5), transparent 70%);
-    filter: blur(4px);
+  @keyframes tapScale{
+    0%{ transform: scale(1);}
+    50%{ transform: scale(0.95);}
+    100%{ transform: scale(1);}
   }
 
   .hint{
