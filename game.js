@@ -1,4 +1,3 @@
-// ---------- TELEGRAM WEBAPP INIT ----------
 const tg = window.Telegram?.WebApp;
 if (tg) {
   tg.ready();
@@ -11,7 +10,6 @@ function triggerHaptic(style = 'medium') {
   }
 }
 
-// ---------- STATE & STORAGE ----------
 let score = parseInt(localStorage.getItem('tap_boss_score')) || 0;
 let combo = 0;
 let comboTimer = null;
@@ -32,7 +30,6 @@ function addScore(amount){
   comboTimer = setTimeout(()=>{ combo = 0; comboPill.textContent = 'Комбо: 0'; }, 1500);
 }
 
-// ---------- AUDIO (Web Audio API) ----------
 const AudioCtx = window.AudioContext || window.webkitAudioContext;
 let actx = null;
 
@@ -77,7 +74,6 @@ function playDrum(){
   osc.stop(actx.currentTime + 0.2);
 }
 
-// ---------- MULTITOUCH HANDLER ----------
 const armLeft = document.getElementById('armLeft');
 const armRight = document.getElementById('armRight');
 const legs = document.getElementById('legs');
@@ -140,7 +136,6 @@ window.addEventListener('touchstart', (e) => {
   }
 }, { passive: true });
 
-// ---------- COUNTDOWN TO LISTING ----------
 const listingDate = new Date();
 listingDate.setDate(listingDate.getDate() + 3); 
 
