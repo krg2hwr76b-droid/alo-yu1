@@ -1,13 +1,52 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>TAP BOSS — до листинга</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="score">0</div>
-    <img id="boss" src="hero.png" style="width:200px; height:200px;">
-    <div class="hint">TAP TO EARN</div>
-    <script src="game.js"></script>
+
+<div class="bg-grid"></div>
+<div class="sun"></div>
+
+<div class="topbar">
+  <div class="score">💰 <span id="scoreVal">0</span> COIN</div>
+  <div class="timer-wrap">
+    <div class="timer-label">До листинга</div>
+    <div class="timer" id="timerVal">--:--:--</div>
+  </div>
+</div>
+
+<div class="stage">
+  <div class="character">
+    <div class="glow-ring"></div>
+    <div class="arm arm-left" id="armLeft"></div>
+    <div class="arm arm-right" id="armRight"></div>
+    <div class="torso"></div>
+    <div class="tie"></div>
+    <div class="head">
+      <div class="hair"></div>
+      <div class="face-line"></div>
+    </div>
+    <div class="legs-wrap" id="legs">
+      <div class="leg leg-left"></div>
+      <div class="leg leg-right"></div>
+    </div>
+    <div class="hint">рука = мелодия, рука = барабан, ноги = танец</div>
+  </div>
+</div>
+
+<div class="bottom-panel">
+  <div class="big-tap" id="bigTap">ТАПНИ ПО БОССУ +1</div>
+  <div class="stats-row">
+    <div class="pill" id="comboPill">Комбо: 0</div>
+    <div class="pill" id="perTapPill">За тап: +1</div>
+  </div>
+  <div class="footer-note">Прототип интерфейса. Персонажа и аватарки замени на свои финальные изображения.</div>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
