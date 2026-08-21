@@ -160,3 +160,29 @@ html,body{
   background: rgba(255,255,255,0.08);
   border:1px solid rgba(255,255,255,0.15);
 }
+body { margin: 0; height: 100vh; background: #1a0b2e; color: #fff; font-family: sans-serif; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+
+.topbar { position: absolute; top: 20px; font-size: 24px; font-weight: bold; }
+
+.stage { height: 50vh; display: flex; align-items: center; justify-content: center; }
+
+.custom-hero { width: 180px; height: 180px; transition: transform 0.05s; cursor: pointer; }
+.custom-hero.hit { transform: scale(0.9); }
+
+.bottom-panel { height: 20vh; display: flex; align-items: center; }
+
+.hint-box { 
+    padding: 15px 40px; 
+    background: linear-gradient(90deg, #ffd23f, #ff2d95); 
+    border-radius: 20px; 
+    color: #1a0b2e; 
+    font-weight: 800; 
+    animation: pulse 1.5s infinite; 
+    pointer-events: none;
+}
+
+@keyframes pulse { 
+    0% { transform: scale(1); } 
+    50% { transform: scale(1.1); } 
+    100% { transform: scale(1); } 
+}
