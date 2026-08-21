@@ -159,3 +159,22 @@ function updateTimer(){
 }
 updateTimer();
 setInterval(updateTimer, 1000);
+const tg = window.Telegram?.WebApp;
+tg?.expand();
+
+let score = parseInt(localStorage.getItem('score')) || 0;
+const scoreEl = document.getElementById('scoreVal');
+const boss = document.getElementById('bossImage');
+
+scoreEl.textContent = score;
+
+boss.addEventListener('click', () => {
+    score += 1;
+    localStorage.setItem('score', score);
+    scoreEl.textContent = score;
+    
+    boss.classList.add('hit');
+    setTimeout(() => boss.classList.remove('hit'), 100);
+    
+    tg?.HapticFeedback.impactOccurred('light');
+});
