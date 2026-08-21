@@ -1,15 +1,20 @@
 // ---------- STATE ----------
-let score = 0;
+let score = localStorage.getItem('tapboss_score') ? parseInt(localStorage.getItem('tapboss_score')) : 0;
 let combo = 0;
 let comboTimer = null;
 
 const scoreVal = document.getElementById('scoreVal');
 const comboPill = document.getElementById('comboPill');
 const perTapPill = document.getElementById('perTapPill');
+const character = document.getElementById('character');
+
+// Load score on page load
+scoreVal.textContent = score.toLocaleString('ru-RU');
 
 function addScore(amount){
   score += amount;
   scoreVal.textContent = score.toLocaleString('ru-RU');
+  localStorage.setItem('tapboss_score', score);
   combo++;
   comboPill.textContent = 'Комбо: ' + combo;
   clearTimeout(comboTimer);
@@ -58,45 +63,18 @@ function playDrum(){
 }
 
 // ---------- INTERACTIONS ----------
-const armLeft = document.getElementById('armLeft');
-const armRight = document.getElementById('armRight');
-const legs = document.getElementById('legs');
-const bigTap = document.getElementById('bigTap');
-
-function bump(el, className, duration){
-  el.classList.remove(className);
-  void el.offsetWidth; // restart animation
-  el.classList.add(className);
-  setTimeout(()=> el.classList.remove(className), duration);
-}
-
-armLeft.addEventListener('click', ()=>{
-  bump(armLeft, 'hit', 350);
-  playMelodyNote();
-  addScore(1);
-});
-
-armRight.addEventListener('click', ()=>{
-  bump(armRight, 'hit', 350);
-  playDrum();
-  addScore(1);
-});
-
-let legsDanceTimeout = null;
-legs.addEventListener('click', ()=>{
-  legs.classList.add('dancing');
-  playDrum();
-  addScore(1);
-  clearTimeout(legsDanceTimeout);
-  legsDanceTimeout = setTimeout(()=> legs.classList.remove('dancing'), 1200);
-});
-
-bigTap.addEventListener('click', ()=>{
-  // random reaction: pick an arm, leg, or melody
+character.addEventListener('click', ()=>{
+  // Random sound: melody or drum
   const r = Math.random();
-  if(r < 0.34){ bump(armLeft,'hit',350); playMelodyNote(); }
-  else if(r < 0.67){ bump(armRight,'hit',350); playDrum(); }
-  else { legs.classList.add('dancing'); playDrum(); setTimeout(()=>legs.classList.remove('dancing'),1200); }
+  if(r < 0.5) playMelodyNote();
+  else playDrum();
+  
+  // Animation
+  character.classList.remove('tap');
+  void character.offsetWidth;
+  character.classList.add('tap');
+  setTimeout(()=> character.classList.remove('tap'), 200);
+  
   addScore(1);
 });
 
