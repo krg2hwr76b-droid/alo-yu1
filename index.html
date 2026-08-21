@@ -1,77 +1,13 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>TAP BOSS</title>
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
-<link rel="stylesheet" href="style.css?v=2.0">
-</head>
-<body>
-
-<div class="bg-grid"></div>
-<div class="sun"></div>
-
-<div class="topbar">
-  <div class="score">💰 <span id="scoreVal">0</span> COIN</div>
-  <div class="timer-wrap">
-    <div class="timer-label">До листинга</div>
-    <div class="timer" id="timerVal">--:--:--</div>
-  </div>
-</div>
-
-<div class="stage">
-  <div class="character">
-    <div class="glow-ring"></div>
-    <div class="arm arm-left" id="armLeft"></div>
-    <div class="arm arm-right" id="armRight"></div>
-    <div class="torso"></div>
-    <div class="tie"></div>
-    <div class="head">
-      <div class="hair"></div>
-      <div class="face-line"></div>
-    </div>
-    <div class="legs-wrap" id="legs">
-      <div class="leg leg-left"></div>
-      <div class="leg leg-right"></div>
-    </div>
-    <div class="hint">Мультитач активен</div>
-  </div>
-</div>
-
-<div class="bottom-panel">
-  <div class="big-tap" id="bigTap">ТАПНИ ПО БОССУ +1</div>
-  <div class="stats-row">
-    <div class="pill" id="comboPill">Комбо: 0</div>
-    <div class="pill" id="perTapPill">За тап: +1</div>
-  </div>
-</div>
-
-<script src="game.js?v=2.0"></script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TAP BOSS</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <link rel="stylesheet" href="style.css?v=4.0">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="topbar">
-        <div class="score" id="scoreVal">0</div>
-    </div>
-    
-    <div class="stage">
-        <img id="bossImage" src="hero.png" alt="boss" class="custom-hero">
-    </div>
-
-    <div class="bottom-panel">
-        <div class="hint-box">TAP TO EARN</div>
-    </div>
-
-    <script src="game.js?v=4.0"></script>
+    <div id="score">0</div>
+    <img id="boss" src="hero.png" style="width:200px; height:200px;">
+    <div class="hint">TAP TO EARN</div>
+    <script src="game.js"></script>
 </body>
 </html>
