@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>TAP BOSS — до листинга</title>
+<style>
+  :root{
+    --pink:#ff2d95;
+    --blue:#00e5ff;
+    --purple:#7b2ff7;
+    --gold:#ffd23f;
+    --bg1:#1a0b2e;
+    --bg2:#2d1b4e;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color: transparent; user-select:none;}
+  html,body{
+    margin:0; padding:0; height:100%; overflow:hidden;
+    background: radial-gradient(circle at 50% 20%, var(--bg2), var(--bg1) 70%);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color:#fff;
+  }
+  .bg-grid{
+    position:absolute; inset:0;
+    background-image:
+      linear-gradient(var(--purple) 1px, transparent 1px),
+      linear-gradient(90deg, var(--purple) 1px, transparent 1px);
+    background-size: 40px 40px;
+    opacity:0.15;
+    transform: perspective(500px) rotateX(60deg) translateY(20%);
+    transform-origin: center bottom;
+  }
+  .sun{
+    position:absolute; left:50%; top:8%; transform:translateX(-50%);
+    width:180px; height:180px; border-radius:50%;
+    background: linear-gradient(180deg, var(--gold), var(--pink));
+    box-shadow: 0 0 80px 20px rgba(255,45,149,0.5);
+    opacity:0.7;
+  }
+
+  .topbar{
+    position:relative; z-index:5;
+    display:flex; justify-content:space-between; align-items:center;
+    padding:14px 18px;
+  }
+  .score{
+    font-size:15px; font-weight:700; color:var(--gold);
+    text-shadow:0 0 10px rgba(255,210,63,0.6);
+  }
+  .timer-wrap{
+    text-align:right;
+  }
+  .timer-label{ font-size:11px; opacity:0.7; letter-spacing:1px; text-transform:uppercase;}
+  .timer{
+    font-size:20px; font-weight:800; color:var(--blue);
+    text-shadow:0 0 10px rgba(0,229,255,0.6);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .stage{
+    position:relative; z-index:5;
+    width:100%;
+    height: calc(100% - 210px);
+    display:flex; align-items:center; justify-content:center;
+  }
+
+  .character{
+    position:relative;
+    width:220px; height:320px;
+  }
+
+  /* HEAD + BODY */
+  .torso{
+    position:absolute; left:50%; top:70px; transform:translateX(-50%);
+    width:90px; height:130px;
+    background: linear-gradient(180deg, #d63c6a, #7b2ff7);
+    border-radius: 40px 40px 30px 30px;
+    box-shadow: 0 0 25px rgba(255,45,149,0.5);
+  }
+  .head{
+    position:absolute; left:50%; top:0; transform:translateX(-50%);
+    width:74px; height:74px; border-radius:50%;
+    background: linear-gradient(180deg, #ffd8b0, #f4b585);
+    box-shadow: 0 0 20px rgba(255,210,63,0.4);
+  }
+  .hair{
+    position:absolute; left:50%; top:-14px; transform:translateX(-50%);
+    width:82px; height:44px;
+    background: linear-gradient(180deg, var(--gold), #ffb703);
+    border-radius: 50% 50% 20% 20%;
+  }
+  .face-line{
+    position:absolute; left:50%; top:46px; transform:translateX(-50%);
+    width:36px; height:6px;
+    border-bottom:3px solid #a15c2a; border-radius:50%;
+  }
+  .tie{
+    position:absolute; left:50%; top:20px; transform:translateX(-50%);
+    width:16px; height:70px;
+    background: linear-gradient(180deg, var(--blue), var(--purple));
+    clip-path: polygon(50% 0, 100% 15%, 65% 100%, 35% 100%, 0 15%);
+  }
+
+  /* ARMS */
+  .arm{
+    position:absolute; top:90px;
+    width:26px; height:80px;
+    background: linear-gradient(180deg, #d63c6a, #7b2ff7);
+    border-radius: 16px;
+    cursor:pointer;
+    transform-origin: top center;
+    transition: filter 0.15s;
+  }
+  .arm-left{ left:12px; transform: rotate(18deg);}
+  .arm-right{ right:12px; transform: rotate(-18deg) scaleX(-1);}
+  .arm::after{
+    content:''; position:absolute; bottom:-10px; left:50%; transform:translateX(-50%);
+    width:22px; height:22px; border-radius:50%;
+    background: linear-gradient(180deg, #ffd8b0, #f4b585);
+  }
+  .arm.hit{ animation: swing 0.35s ease; }
+  @keyframes swing{
+    0%{ transform: rotate(18deg); }
+    40%{ transform: rotate(70deg); }
+    100%{ transform: rotate(18deg); }
+  }
+  .arm-right.hit{ animation: swingR 0.35s ease; }
+  @keyframes swingR{
+    0%{ transform: rotate(-18deg) scaleX(-1); }
+    40%{ transform: rotate(-70deg) scaleX(-1); }
+    100%{ transform: rotate(-18deg) scaleX(-1); }
+  }
+
+  /* LEGS */
+  .legs-wrap{
+    position:absolute; left:50%; top:195px; transform:translateX(-50%);
+    width:90px; height:90px; cursor:pointer;
+  }
+  .leg{
+    position:absolute; top:0; width:24px; height:80px;
+    background: linear-gradient(180deg, #1a1a2e, #3d2a5c);
+    border-radius: 10px;
+    transform-origin: top center;
+  }
+  .leg-left{ left:14px; }
+  .leg-right{ right:14px; }
+  .legs-wrap.dancing .leg-left{ animation: kickL 0.5s ease infinite; }
+  .legs-wrap.dancing .leg-right{ animation: kickR 0.5s ease infinite; }
+  @keyframes kickL{
+    0%,100%{ transform: rotate(0deg);} 50%{ transform: rotate(-22deg);}
+  }
+  @keyframes kickR{
+    0%,100%{ transform: rotate(0deg);} 50%{ transform: rotate(22deg);}
+  }
+
+  .glow-ring{
+    position:absolute; left:50%; bottom:-10px; transform:translateX(-50%);
+    width:160px; height:24px; border-radius:50%;
+    background: radial-gradient(ellipse, rgba(0,229,255,0.5), transparent 70%);
+    filter: blur(4px);
+  }
+
+  .hint{
+    position:absolute; bottom:6px; left:50%; transform:translateX(-50%);
+    font-size:11px; opacity:0.5; white-space:nowrap;
+  }
+
+  .bottom-panel{
+    position:relative; z-index:5;
+    height:200px;
+    display:flex; flex-direction:column; align-items:center; justify-content:flex-start;
+    gap:10px; padding-top:6px;
+  }
+  .big-tap{
+    width:70%; max-width:280px; padding:16px;
+    text-align:center; font-weight:800; font-size:16px; letter-spacing:0.5px;
+    color:#1a0b2e;
+    background: linear-gradient(90deg, var(--gold), var(--pink));
+    border-radius: 20px;
+    box-shadow: 0 6px 20px rgba(255,45,149,0.4);
+    cursor:pointer;
+    transition: transform 0.08s;
+  }
+  .big-tap:active{ transform: scale(0.96); }
+  .stats-row{
+    display:flex; gap:10px;
+  }
+  .pill{
+    font-size:11px; padding:6px 12px; border-radius:14px;
+    background: rgba(255,255,255,0.08);
+    border:1px solid rgba(255,255,255,0.15);
+  }
+  .footer-note{
+    font-size:10px; opacity:0.35; margin-top:4px; text-align:center; padding:0 20px;
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="sun"></div>
+
+<div class="topbar">
+  <div class="score">💰 <span id="scoreVal">0</span> COIN</div>
+  <div class="timer-wrap">
+    <div class="timer-label">До листинга</div>
+    <div class="timer" id="timerVal">--:--:--</div>
+  </div>
+</div>
+
+<div class="stage">
+  <div class="character">
+    <div class="glow-ring"></div>
+    <div class="arm arm-left" id="armLeft"></div>
+    <div class="arm arm-right" id="armRight"></div>
+    <div class="torso"></div>
+    <div class="tie"></div>
+    <div class="head">
+      <div class="hair"></div>
+      <div class="face-line"></div>
+    </div>
+    <div class="legs-wrap" id="legs">
+      <div class="leg leg-left"></div>
+      <div class="leg leg-right"></div>
+    </div>
+    <div class="hint">рука = мелодия, рука = барабан, ноги = танец</div>
+  </div>
+</div>
+
+<div class="bottom-panel">
+  <div class="big-tap" id="bigTap">ТАПНИ ПО БОССУ +1</div>
+  <div class="stats-row">
+    <div class="pill" id="comboPill">Комбо: 0</div>
+    <div class="pill" id="perTapPill">За тап: +1</div>
+  </div>
+  <div class="footer-note">Прототип интерфейса. Персонажа и аватарки замени на свои финальные изображения.</div>
+</div>
+
+<script>
+// ---------- STATE ----------
+let score = 0;
+let combo = 0;
+let comboTimer = null;
+
+const scoreVal = document.getElementById('scoreVal');
+const comboPill = document.getElementById('comboPill');
+const perTapPill = document.getElementById('perTapPill');
+
+function addScore(amount){
+  score += amount;
+  scoreVal.textContent = score.toLocaleString('ru-RU');
+  combo++;
+  comboPill.textContent = 'Комбо: ' + combo;
+  clearTimeout(comboTimer);
+  comboTimer = setTimeout(()=>{ combo = 0; comboPill.textContent = 'Комбо: 0'; }, 1500);
+}
+
+// ---------- AUDIO (Web Audio API, no external files) ----------
+const AudioCtx = window.AudioContext || window.webkitAudioContext;
+const actx = new AudioCtx();
+
+function playTone(freq, duration, type='sine', vol=0.2){
+  const osc = actx.createOscillator();
+  const gain = actx.createGain();
+  osc.type = type;
+  osc.frequency.value = freq;
+  gain.gain.setValueAtTime(vol, actx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, actx.currentTime + duration);
+  osc.connect(gain);
+  gain.connect(actx.destination);
+  osc.start();
+  osc.stop(actx.currentTime + duration);
+}
+
+const melodyNotes = [523.25, 587.33, 659.25, 698.46, 783.99, 880.00];
+let melodyIndex = 0;
+function playMelodyNote(){
+  if(actx.state === 'suspended') actx.resume();
+  playTone(melodyNotes[melodyIndex % melodyNotes.length], 0.35, 'triangle', 0.18);
+  melodyIndex++;
+}
+
+function playDrum(){
+  if(actx.state === 'suspended') actx.resume();
+  // kick-ish thump using noise + low osc
+  const osc = actx.createOscillator();
+  const gain = actx.createGain();
+  osc.type = 'sine';
+  osc.frequency.setValueAtTime(150, actx.currentTime);
+  osc.frequency.exponentialRampToValueAtTime(40, actx.currentTime + 0.15);
+  gain.gain.setValueAtTime(0.35, actx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, actx.currentTime + 0.18);
+  osc.connect(gain);
+  gain.connect(actx.destination);
+  osc.start();
+  osc.stop(actx.currentTime + 0.2);
+}
+
+// ---------- INTERACTIONS ----------
+const armLeft = document.getElementById('armLeft');
+const armRight = document.getElementById('armRight');
+const legs = document.getElementById('legs');
+const bigTap = document.getElementById('bigTap');
+
+function bump(el, className, duration){
+  el.classList.remove(className);
+  void el.offsetWidth; // restart animation
+  el.classList.add(className);
+  setTimeout(()=> el.classList.remove(className), duration);
+}
+
+armLeft.addEventListener('click', ()=>{
+  bump(armLeft, 'hit', 350);
+  playMelodyNote();
+  addScore(1);
+});
+
+armRight.addEventListener('click', ()=>{
+  bump(armRight, 'hit', 350);
+  playDrum();
+  addScore(1);
+});
+
+let legsDanceTimeout = null;
+legs.addEventListener('click', ()=>{
+  legs.classList.add('dancing');
+  playDrum();
+  addScore(1);
+  clearTimeout(legsDanceTimeout);
+  legsDanceTimeout = setTimeout(()=> legs.classList.remove('dancing'), 1200);
+});
+
+bigTap.addEventListener('click', ()=>{
+  // random reaction: pick an arm, leg, or melody
+  const r = Math.random();
+  if(r < 0.34){ bump(armLeft,'hit',350); playMelodyNote(); }
+  else if(r < 0.67){ bump(armRight,'hit',350); playDrum(); }
+  else { legs.classList.add('dancing'); playDrum(); setTimeout(()=>legs.classList.remove('dancing'),1200); }
+  addScore(1);
+});
+
+// ---------- COUNTDOWN TO LISTING ----------
+// Change this date/time to your real listing date
+const listingDate = new Date();
+listingDate.setDate(listingDate.getDate() + 3); // demo: 3 days from now
+
+const timerVal = document.getElementById('timerVal');
+function updateTimer(){
+  const now = new Date();
+  let diff = listingDate - now;
+  if(diff <= 0){
+    timerVal.textContent = 'ЛИСТИНГ!';
+    return;
+  }
+  const h = Math.floor(diff / 3600000);
+  diff -= h * 3600000;
+  const m = Math.floor(diff / 60000);
+  diff -= m * 60000;
+  const s = Math.floor(diff / 1000);
+  timerVal.textContent =
+    String(h).padStart(2,'0') + ':' +
+    String(m).padStart(2,'0') + ':' +
+    String(s).padStart(2,'0');
+}
+updateTimer();
+setInterval(updateTimer, 1000);
+</script>
+
+</body>
+</html>
