@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>TAP BOSS — до листинга</title>
+<!-- Telegram WebApp SDK -->
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
   :root{
     --pink:#ff2d95;
@@ -233,12 +235,26 @@
     <div class="pill" id="comboPill">Комбо: 0</div>
     <div class="pill" id="perTapPill">За тап: +1</div>
   </div>
-  <div class="footer-note">Прототип интерфейса. Персонажа и аватарки замени на свои финальные изображения.</div>
+  <div class="footer-note">Telegram Mini App готов к деплою.</div>
 </div>
 
 <script>
-// ---------- STATE ----------
-let score = 0;
+// ---------- TELEGRAM WEBAPP INIT ----------
+const tg = window.Telegram?.WebApp;
+if (tg) {
+  tg.ready();
+  tg.expand(); // Разворачиваем на весь экран
+}
+
+// Вибрация (если поддерживается Телеграмом)
+function triggerHaptic(style = 'medium') {
+  if (tg && tg.HapticFeedback) {
+    tg.HapticFeedback.impactOccurred(style);
+  }
+}
+
+// ---------- STATE & STORAGE ----------
+let score = parseInt(localStorage.getItem('tap_boss_score')) || 0;
 let combo = 0;
 let comboTimer = null;
 
@@ -246,20 +262,37 @@ const scoreVal = document.getElementById('scoreVal');
 const comboPill = document.getElementById('comboPill');
 const perTapPill = document.getElementById('perTapPill');
 
+// Инициализация отображения очков при старте
+scoreVal.textContent = score.toLocaleString('ru-RU');
+
 function addScore(amount){
   score += amount;
   scoreVal.textContent = score.toLocaleString('ru-RU');
+  
+  // Сохраняем в localStorage
+  localStorage.setItem('tap_boss_score', score);
+
   combo++;
   comboPill.textContent = 'Комбо: ' + combo;
   clearTimeout(comboTimer);
   comboTimer = setTimeout(()=>{ combo = 0; comboPill.textContent = 'Комбо: 0'; }, 1500);
 }
 
-// ---------- AUDIO (Web Audio API, no external files) ----------
+// ---------- AUDIO (Web Audio API) ----------
 const AudioCtx = window.AudioContext || window.webkitAudioContext;
-const actx = new AudioCtx();
+let actx = null;
+
+function initAudio() {
+  if (!actx) {
+    actx = new AudioCtx();
+  }
+  if(actx.state === 'suspended') {
+    actx.resume();
+  }
+}
 
 function playTone(freq, duration, type='sine', vol=0.2){
+  initAudio();
   const osc = actx.createOscillator();
   const gain = actx.createGain();
   osc.type = type;
@@ -275,14 +308,12 @@ function playTone(freq, duration, type='sine', vol=0.2){
 const melodyNotes = [523.25, 587.33, 659.25, 698.46, 783.99, 880.00];
 let melodyIndex = 0;
 function playMelodyNote(){
-  if(actx.state === 'suspended') actx.resume();
   playTone(melodyNotes[melodyIndex % melodyNotes.length], 0.35, 'triangle', 0.18);
   melodyIndex++;
 }
 
 function playDrum(){
-  if(actx.state === 'suspended') actx.resume();
-  // kick-ish thump using noise + low osc
+  initAudio();
   const osc = actx.createOscillator();
   const gain = actx.createGain();
   osc.type = 'sine';
@@ -304,7 +335,7 @@ const bigTap = document.getElementById('bigTap');
 
 function bump(el, className, duration){
   el.classList.remove(className);
-  void el.offsetWidth; // restart animation
+  void el.offsetWidth; 
   el.classList.add(className);
   setTimeout(()=> el.classList.remove(className), duration);
 }
@@ -312,12 +343,14 @@ function bump(el, className, duration){
 armLeft.addEventListener('click', ()=>{
   bump(armLeft, 'hit', 350);
   playMelodyNote();
+  triggerHaptic('light');
   addScore(1);
 });
 
 armRight.addEventListener('click', ()=>{
   bump(armRight, 'hit', 350);
   playDrum();
+  triggerHaptic('medium');
   addScore(1);
 });
 
@@ -325,24 +358,24 @@ let legsDanceTimeout = null;
 legs.addEventListener('click', ()=>{
   legs.classList.add('dancing');
   playDrum();
+  triggerHaptic('heavy');
   addScore(1);
   clearTimeout(legsDanceTimeout);
   legsDanceTimeout = setTimeout(()=> legs.classList.remove('dancing'), 1200);
 });
 
 bigTap.addEventListener('click', ()=>{
-  // random reaction: pick an arm, leg, or melody
   const r = Math.random();
   if(r < 0.34){ bump(armLeft,'hit',350); playMelodyNote(); }
   else if(r < 0.67){ bump(armRight,'hit',350); playDrum(); }
   else { legs.classList.add('dancing'); playDrum(); setTimeout(()=>legs.classList.remove('dancing'),1200); }
+  triggerHaptic('medium');
   addScore(1);
 });
 
 // ---------- COUNTDOWN TO LISTING ----------
-// Change this date/time to your real listing date
 const listingDate = new Date();
-listingDate.setDate(listingDate.getDate() + 3); // demo: 3 days from now
+listingDate.setDate(listingDate.getDate() + 3); 
 
 const timerVal = document.getElementById('timerVal');
 function updateTimer(){
