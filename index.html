@@ -3,45 +3,63 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>TAP BOSS — до листинга</title>
+<title>TAP BOSS</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="topbar">
-  <div class="score"><span id="scoreVal">0</span> COIN</div>
-  <div class="timer-wrap">
-    <div class="timer-label">До листинга</div>
-    <div class="timer" id="timerVal">--:--:--</div>
+<div class="scanlines"></div>
+<div class="bg-glow-pink"></div>
+<div class="bg-glow-cyan"></div>
+
+<div class="header">
+  <div class="avatar-slot" id="avatarSlot">
+    <div class="avatar-placeholder">👤</div>
+  </div>
+  <div class="timer-box">
+    <div class="timer-label">🇺🇸 ЛИСТИНГ</div>
+    <div class="timer" id="timerVal">00:00:00</div>
   </div>
 </div>
 
 <div class="stage">
   <div class="character">
     <div id="head" class="part part-head">
-      <img src="head.png" alt="голова">
+      <img src="head.png" alt="head">
     </div>
     <div id="body" class="part part-body">
-      <img src="body.png" alt="тело">
+      <img src="body.png" alt="body">
     </div>
     <div id="armLeft" class="part part-arm-left">
-      <img src="arm-left.png" alt="левая рука">
+      <img src="arm-left.png" alt="left arm">
     </div>
     <div id="armRight" class="part part-arm-right">
-      <img src="arm-right.png" alt="правая рука">
+      <img src="arm-right.png" alt="right arm">
     </div>
     <div id="legs" class="part part-legs">
-      <img src="legs.png" alt="ноги">
+      <img src="legs.png" alt="legs">
     </div>
   </div>
 </div>
 
 <div class="bottom-panel">
   <div class="stats-row">
-    <div class="pill" id="comboPill">Комбо: 0</div>
-    <div class="pill" id="perTapPill">За тап: +1</div>
+    <div class="stat coin">
+      <span class="label">COIN</span>
+      <span class="value" id="scoreVal">0</span>
+    </div>
+    <div class="stat combo">
+      <span class="label">COMBO</span>
+      <span class="value" id="comboVal">0</span>
+    </div>
+    <div class="stat balance">
+      <span class="label">БАЛАНС</span>
+      <div class="bar">
+        <div class="fill" id="balanceFill"></div>
+      </div>
+      <span class="percent" id="balancePercent">0%</span>
+    </div>
   </div>
-  <div class="footer-note">Тапай по любой части</div>
 </div>
 
 <script src="script.js"></script>
