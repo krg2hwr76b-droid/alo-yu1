@@ -8,9 +8,6 @@
 </head>
 <body>
 
-<div class="bg-grid"></div>
-<div class="sun"></div>
-
 <div class="topbar">
   <div class="score"><span id="scoreVal">0</span> COIN</div>
   <div class="timer-wrap">
@@ -21,25 +18,20 @@
 
 <div class="stage">
   <div class="character">
-    <div class="piece body-piece" id="body" aria-label="Корпус"></div>
-    <div class="piece leg-left" id="legLeft" aria-label="Левая нога"></div>
-    <div class="piece leg-right" id="legRight" aria-label="Правая нога"></div>
-    <div class="piece arm-left" id="armLeft" aria-label="Левая рука"></div>
-    <div class="piece arm-right" id="armRight" aria-label="Правая рука"></div>
-    <div class="piece head-piece" id="head" aria-label="Голова"></div>
-    <div class="balance"></div>
-    <div class="hint">нажми на часть тела</div>
+    <img id="legs" src="legs.png" alt="ноги" class="part part-legs">
+    <img id="body" src="body.png" alt="тело" class="part part-body">
+    <img id="armLeft" src="arm-left.png" alt="левая рука" class="part part-arm-left">
+    <img id="armRight" src="arm-right.png" alt="правая рука" class="part part-arm-right">
+    <img id="head" src="head.png" alt="голова" class="part part-head">
   </div>
 </div>
 
 <div class="bottom-panel">
-  <div class="big-tap" id="bigTap">ТАПНИ ПО БОССУ</div>
   <div class="stats-row">
     <div class="pill" id="comboPill">Комбо: 0</div>
     <div class="pill" id="perTapPill">За тап: +1</div>
-    <div class="pill" id="balancePill">Баланс</div>
   </div>
-  <div class="footer-note">Каждая часть играет свой инструмент</div>
+  <div class="footer-note">Тапай по любой части</div>
 </div>
 
 <script src="script.js"></script>
