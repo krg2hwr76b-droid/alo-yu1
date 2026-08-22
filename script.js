@@ -27,68 +27,79 @@ function getAudio(){
   return actx;
 }
 
-function playTone(freq, duration, type='sine', vol=0.2){
+function playNote(freq, duration=0.4, vol=0.25){
   const audio = getAudio();
   if(!audio) return;
+  
   const osc = audio.createOscillator();
   const gain = audio.createGain();
-  osc.type = type;
-  osc.frequency.value = freq;
-  gain.gain.setValueAtTime(vol, audio.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.001, audio.currentTime + duration);
-  osc.connect(gain);
-  gain.connect(audio.destination);
-  osc.start();
-  osc.stop(audio.currentTime + duration);
-}
-
-const melodyNotes = [523.25, 587.33, 659.25, 698.46, 783.99, 880.00];
-let melodyIndex = 0;
-
-function playMelodyNote(){
-  getAudio();
-  playTone(melodyNotes[melodyIndex++ % melodyNotes.length], .35, 'triangle', .16);
-}
-
-function playBass(){
-  getAudio();
-  playTone(130, .28, 'sine', .22);
-}
-
-function playBell(){
-  getAudio();
-  playTone(880, .45, 'sine', .12);
-}
-
-function playDrum(){
-  const audio=getAudio(); if(!audio) return;
-  const osc = audio.createOscillator();
-  const gain = audio.createGain();
+  const now = audio.currentTime;
+  
   osc.type = 'sine';
-  osc.frequency.setValueAtTime(150, audio.currentTime);
-  osc.frequency.exponentialRampToValueAtTime(40, audio.currentTime + 0.15);
-  gain.gain.setValueAtTime(0.35, audio.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.001, audio.currentTime + 0.18);
+  osc.frequency.value = freq;
+  
+  // Яркий envelope - быстрый атака, медленный декей
+  gain.gain.setValueAtTime(0, now);
+  gain.gain.linearRampToValueAtTime(vol, now + 0.05); // быстрый атак
+  gain.gain.exponentialRampToValueAtTime(0.01, now + duration); // плавный декей
+  
   osc.connect(gain);
   gain.connect(audio.destination);
-  osc.start();
-  osc.stop(audio.currentTime + 0.2);
+  osc.start(now);
+  osc.stop(now + duration);
+}
+
+// Мажорная гамма До - яркие звуки, легко комбинировать в мелодии
+// До (C4) = 261.63, Ре (D4) = 293.66, Ми (E4) = 329.63, Фа (F4) = 349.23, Соль (G4) = 392.00, Ля (A4) = 440.00, Си (B4) = 493.88
+const notes = {
+  do: 261.63,     // голова (самая низкая)
+  re: 293.66,     // левая рука
+  mi: 329.63,     // правая рука
+  fa: 349.23,     // левая нога
+  sol: 392.00,    // правая нога
+  la: 440.00,     // бонус
+  si: 493.88      // бонус
+};
+
+function playHead(){
+  getAudio();
+  playNote(notes.sol, 0.35, 0.28); // Соль - яркий и высокий для головы
+}
+
+function playBody(){
+  getAudio();
+  playNote(notes.mi, 0.4, 0.26); // Ми - средний-высокий для тела
+}
+
+function playArmLeft(){
+  getAudio();
+  playNote(notes.re, 0.38, 0.27); // Ре - средний для левой руки
+}
+
+function playArmRight(){
+  getAudio();
+  playNote(notes.la, 0.36, 0.25); // Ля - высокий для правой руки
+}
+
+function playLegs(){
+  getAudio();
+  playNote(notes.do, 0.42, 0.29); // До - низкий для ног
 }
 
 // ---------- INTERACTIONS ----------
 const parts = {
-  head: {el: document.getElementById('head'), sound: playBell},
-  body: {el: document.getElementById('body'), sound: playDrum},
-  armLeft: {el: document.getElementById('armLeft'), sound: playMelodyNote},
-  armRight: {el: document.getElementById('armRight'), sound: playDrum},
-  legs: {el: document.getElementById('legs'), sound: playBass}
+  head: {el: document.getElementById('head'), sound: playHead},
+  body: {el: document.getElementById('body'), sound: playBody},
+  armLeft: {el: document.getElementById('armLeft'), sound: playArmLeft},
+  armRight: {el: document.getElementById('armRight'), sound: playArmRight},
+  legs: {el: document.getElementById('legs'), sound: playLegs}
 };
 
 function bump(el){
   el.classList.remove('hit');
   void el.offsetWidth;
   el.classList.add('hit');
-  setTimeout(()=> el.classList.remove('hit'), 350);
+  setTimeout(()=> el.classList.remove('hit'), 250);
 }
 
 Object.values(parts).forEach(part => {
