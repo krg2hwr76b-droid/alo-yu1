@@ -27,8 +27,8 @@ html,body{
 
 .character{
   position:relative;
-  width:280px;
-  height:500px;
+  width:320px;
+  height:600px;
 }
 
 .part{
@@ -49,47 +49,47 @@ html,body{
 .part-head{
   top:0;
   left:50%;
-  width:140px;
-  height:140px;
-  margin-left:-70px;
+  width:150px;
+  height:150px;
+  margin-left:-75px;
   z-index:15;
 }
 
 /* Тело - центр */
 .part-body{
-  top:130px;
+  top:140px;
   left:50%;
-  width:180px;
-  height:180px;
-  margin-left:-90px;
+  width:160px;
+  height:160px;
+  margin-left:-80px;
   z-index:10;
 }
 
 /* Левая рука */
 .part-arm-left{
-  top:120px;
-  left:20px;
-  width:100px;
-  height:150px;
+  top:130px;
+  left:0;
+  width:110px;
+  height:140px;
   z-index:8;
 }
 
 /* Правая рука */
 .part-arm-right{
-  top:120px;
-  right:20px;
-  width:100px;
-  height:150px;
+  top:130px;
+  right:0;
+  width:110px;
+  height:140px;
   z-index:8;
 }
 
-/* Ноги - нижняя часть */
+/* Ноги - нижняя часть (увеличены!) */
 .part-legs{
   bottom:0;
   left:50%;
-  width:140px;
-  height:140px;
-  margin-left:-70px;
+  width:180px;
+  height:180px;
+  margin-left:-90px;
   z-index:5;
 }
 
