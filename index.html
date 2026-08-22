@@ -12,7 +12,7 @@
 <div class="sun"></div>
 
 <div class="topbar">
-  <div class="score">💰 <span id="scoreVal">0</span> COIN</div>
+  <div class="score"><span id="scoreVal">0</span> COIN</div>
   <div class="timer-wrap">
     <div class="timer-label">До листинга</div>
     <div class="timer" id="timerVal">--:--:--</div>
@@ -20,25 +20,26 @@
 </div>
 
 <div class="stage">
-  <div class="character-container">
-    <img id="characterImg" src="https://i.imgur.com/ZjsHylC_d.webp?maxwidth=760&fidelity=grand" alt="boss" class="char-img">
-    
-    <!-- Интерактивные зоны на теле персонажа -->
-    <div class="body-part head" data-part="head" title="Голова - Пианино"></div>
-    <div class="body-part left-arm" data-part="left-arm" title="Левая рука - Гитара"></div>
-    <div class="body-part right-arm" data-part="right-arm" title="Правая рука - Флейта"></div>
-    <div class="body-part left-leg" data-part="left-leg" title="Левая нога - Басс"></div>
-    <div class="body-part right-leg" data-part="right-leg" title="Правая нога - Барабаны"></div>
-    
-    <div class="hint">нажимай на части тела! 🎵</div>
+  <div class="character">
+    <div class="piece body-piece" id="body" aria-label="Корпус"></div>
+    <div class="piece leg-left" id="legLeft" aria-label="Левая нога"></div>
+    <div class="piece leg-right" id="legRight" aria-label="Правая нога"></div>
+    <div class="piece arm-left" id="armLeft" aria-label="Левая рука"></div>
+    <div class="piece arm-right" id="armRight" aria-label="Правая рука"></div>
+    <div class="piece head-piece" id="head" aria-label="Голова"></div>
+    <div class="balance"></div>
+    <div class="hint">нажми на часть тела</div>
   </div>
 </div>
 
 <div class="bottom-panel">
+  <div class="big-tap" id="bigTap">ТАПНИ ПО БОССУ</div>
   <div class="stats-row">
     <div class="pill" id="comboPill">Комбо: 0</div>
     <div class="pill" id="perTapPill">За тап: +1</div>
+    <div class="pill" id="balancePill">Баланс</div>
   </div>
+  <div class="footer-note">Каждая часть играет свой инструмент</div>
 </div>
 
 <script src="script.js"></script>
