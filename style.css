@@ -22,33 +22,75 @@ html,body{
   width:100%;
   height:calc(100% - 160px);
   display:flex; align-items:center; justify-content:center;
+  overflow:hidden;
 }
 
 .character{
   position:relative;
-  width:280px; height:500px;
+  width:320px; height:580px;
 }
 
 .part{
   position:absolute;
-  width:100%;
-  height:100%;
-  object-fit:contain;
   cursor:pointer;
   transition:filter .15s;
 }
 .part:active{filter:brightness(1.15)}
-.part-head{z-index:10}
-.part-body{z-index:8}
-.part-arm-left{z-index:7}
-.part-arm-right{z-index:7}
-.part-legs{z-index:6}
+
+.part img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  display:block;
+}
+
+.part-head{
+  top:0;
+  left:50%;
+  width:160px;
+  height:160px;
+  margin-left:-80px;
+  z-index:10;
+}
+
+.part-body{
+  top:130px;
+  left:50%;
+  width:210px;
+  height:260px;
+  margin-left:-105px;
+  z-index:8;
+}
+
+.part-arm-left{
+  top:120px;
+  left:-10px;
+  width:160px;
+  height:220px;
+  z-index:7;
+}
+
+.part-arm-right{
+  top:120px;
+  right:-10px;
+  width:160px;
+  height:220px;
+  z-index:7;
+}
+
+.part-legs{
+  bottom:0;
+  left:50%;
+  width:210px;
+  height:200px;
+  margin-left:-105px;
+  z-index:6;
+}
 
 .part.hit{animation:tap .35s ease}
 @keyframes tap{
-  0%{transform:scale(1)}
-  50%{transform:scale(0.96)}
-  100%{transform:scale(1)}
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(0.93)}
 }
 
 .bottom-panel{
