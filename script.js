@@ -44,27 +44,20 @@ function playTone(freq, duration, type='sine', vol=0.2){
 
 const melodyNotes = [523.25, 587.33, 659.25, 698.46, 783.99, 880.00];
 let melodyIndex = 0;
-function resumeAudio(){ getAudio(); }
+
 function playMelodyNote(){
-  resumeAudio();
+  getAudio();
   playTone(melodyNotes[melodyIndex++ % melodyNotes.length], .35, 'triangle', .16);
 }
+
 function playBass(){
-  resumeAudio();
+  getAudio();
   playTone(130, .28, 'sine', .22);
 }
+
 function playBell(){
-  resumeAudio();
+  getAudio();
   playTone(880, .45, 'sine', .12);
-}
-function playHat(){
-  resumeAudio();
-  const audio=getAudio(); if(!audio) return;
-  const buffer=audio.createBuffer(1, audio.sampleRate*.08, audio.sampleRate);
-  const data=buffer.getChannelData(0);
-  for(let i=0;i<data.length;i++) data[i]=(Math.random()*2-1)*(.7-i/data.length);
-  const source=audio.createBufferSource(), gain=audio.createGain();
-  source.buffer=buffer; gain.gain.value=.12; source.connect(gain); gain.connect(audio.destination); source.start();
 }
 
 function playDrum(){
@@ -83,51 +76,28 @@ function playDrum(){
 }
 
 // ---------- INTERACTIONS ----------
-const armLeft = document.getElementById('armLeft');
-const armRight = document.getElementById('armRight');
-const legLeft = document.getElementById('legLeft');
-const legRight = document.getElementById('legRight');
-const head = document.getElementById('head');
-const body = document.getElementById('body');
-const bigTap = document.getElementById('bigTap');
-const character = document.querySelector('.character');
-const balancePill = document.getElementById('balancePill');
+const parts = {
+  head: {el: document.getElementById('head'), sound: playBell},
+  body: {el: document.getElementById('body'), sound: playDrum},
+  armLeft: {el: document.getElementById('armLeft'), sound: playMelodyNote},
+  armRight: {el: document.getElementById('armRight'), sound: playDrum},
+  legs: {el: document.getElementById('legs'), sound: playBass}
+};
 
-function bump(el, className, duration){
-  el.classList.remove(className);
+function bump(el){
+  el.classList.remove('hit');
   void el.offsetWidth;
-  el.classList.add(className);
-  setTimeout(()=> el.classList.remove(className), duration);
+  el.classList.add('hit');
+  setTimeout(()=> el.classList.remove('hit'), 350);
 }
 
-function tapPart(part, sound){
-  part.addEventListener('click', (event)=>{
-    event.stopPropagation();
-    bump(part,'hit',450); sound(); addScore(1);
+Object.values(parts).forEach(part => {
+  part.el.addEventListener('click', (e) => {
+    e.stopPropagation();
+    bump(part.el);
+    part.sound();
+    addScore(1);
   });
-}
-tapPart(armLeft, playMelodyNote);
-tapPart(armRight, playDrum);
-tapPart(legLeft, playBass);
-tapPart(legRight, playHat);
-tapPart(head, playBell);
-tapPart(body, playDrum);
-
-bigTap.addEventListener('click', ()=>{
-  resumeAudio();
-  addScore(1);
-  bump(body,'hit',350); playDrum();
-});
-
-let balanceTimer;
-character.addEventListener('dblclick', ()=>{
-  character.classList.add('is-balanced');
-  clearTimeout(balanceTimer);
-  balanceTimer=setTimeout(()=>character.classList.remove('is-balanced'),1000);
-});
-balancePill.addEventListener('click', ()=>{
-  character.classList.toggle('is-balanced');
-  playBell();
 });
 
 // ---------- COUNTDOWN TO LISTING ----------
