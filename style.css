@@ -45,9 +45,9 @@ html,body{
   display:block;
 }
 
-/* Голова - верхняя часть */
+/* Голова - верхняя часть (чуть ниже опущена) */
 .part-head{
-  top:0;
+  top:15px;
   left:50%;
   width:150px;
   height:150px;
@@ -55,9 +55,9 @@ html,body{
   z-index:15;
 }
 
-/* Тело - центр (уменьшено на 10% и опущено на 2см) */
+/* Тело - ровно под головой */
 .part-body{
-  top:165px;
+  top:155px;
   left:50%;
   width:144px;
   height:144px;
