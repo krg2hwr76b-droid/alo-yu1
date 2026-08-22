@@ -6,75 +6,62 @@ html,body{
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   color:#fff;
 }
-.bg-grid,.sun{display:none}
 
 .topbar{
   position:relative; z-index:5;
   display:flex; justify-content:space-between; align-items:center;
-   padding:16px 18px 0;
+  padding:16px 18px 0;
 }
 .score{font-size:14px;font-weight:700;color:var(--ink)}
- .timer-wrap{text-align:right;transform:translateY(8px)}
- .timer-label{font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase}
- .timer{
-   font-size:18px;font-weight:800;color:var(--ink);
-  font-variant-numeric: tabular-nums;
-}
+.timer-wrap{text-align:right;transform:translateY(8px)}
+.timer-label{font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase}
+.timer{font-size:18px;font-weight:800;color:var(--ink);font-variant-numeric: tabular-nums;}
 
 .stage{
   position:relative; z-index:5;
   width:100%;
-   height:calc(100% - 255px);
+  height:calc(100% - 160px);
   display:flex; align-items:center; justify-content:center;
 }
 
-.character{position:relative;width:min(76vw,300px);height:min(112vw,450px);filter:drop-shadow(0 18px 24px rgba(0,0,0,.35))}
-.piece{position:absolute;inset:0;background:url("char.png") center/100% 100% no-repeat;cursor:pointer;transition:filter .15s;touch-action:manipulation}
-.piece:active{filter:brightness(1.2)}
-.head-piece{clip-path:polygon(22% 0,76% 0,76% 27%,22% 27%);transform-origin:50% 22%}
-.body-piece{clip-path:polygon(20% 15%,80% 15%,80% 61%,20% 61%);transform-origin:50% 20%}
-.arm-left{clip-path:polygon(0 16%,27% 16%,27% 62%,0 62%);transform-origin:18% 20%}
-.arm-right{clip-path:polygon(73% 16%,100% 16%,100% 62%,73% 62%);transform-origin:82% 20%}
-.leg-left{clip-path:polygon(21% 54%,51% 54%,51% 100%,21% 100%);transform-origin:39% 56%}
-.leg-right{clip-path:polygon(49% 54%,79% 54%,79% 100%,49% 100%);transform-origin:61% 56%}
-.head-piece.hit{animation:headBob .38s ease}
-.body-piece.hit{animation:bodyPulse .35s ease}
-.arm-left.hit{animation:armL .38s ease}
-.arm-right.hit{animation:armR .38s ease}
-.leg-left.hit{animation:legL .42s ease}
-.leg-right.hit{animation:legR .42s ease}
-@keyframes headBob{50%{transform:rotate(8deg) translateY(5px)}}
-@keyframes bodyPulse{50%{transform:scale(1.04) rotate(-2deg)}}
-@keyframes armL{50%{transform:rotate(-18deg) translate(-5px,4px)}}
-@keyframes armR{50%{transform:rotate(18deg) translate(5px,4px)}}
-@keyframes legL{50%{transform:rotate(-12deg) translate(-3px,2px)}}
-@keyframes legR{50%{transform:rotate(12deg) translate(3px,2px)}}
-.balance{position:absolute;left:50%;bottom:-12px;transform:translateX(-50%);width:130px;height:5px;border-radius:50%;background:rgba(255,207,74,.6);filter:blur(5px);opacity:0;transition:opacity .2s}
-.character.is-balanced .balance{opacity:1}
+.character{
+  position:relative;
+  width:280px; height:500px;
+}
 
-.hint{position:absolute;bottom:-29px;left:50%;transform:translateX(-50%);font-size:10px;color:var(--muted);white-space:nowrap}
+.part{
+  position:absolute;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  cursor:pointer;
+  transition:filter .15s;
+}
+.part:active{filter:brightness(1.15)}
+.part-head{z-index:10}
+.part-body{z-index:8}
+.part-arm-left{z-index:7}
+.part-arm-right{z-index:7}
+.part-legs{z-index:6}
+
+.part.hit{animation:tap .35s ease}
+@keyframes tap{
+  0%{transform:scale(1)}
+  50%{transform:scale(0.96)}
+  100%{transform:scale(1)}
+}
 
 .bottom-panel{
   position:relative; z-index:5;
-   height:245px;
+  height:auto;
   display:flex; flex-direction:column; align-items:center; justify-content:flex-start;
-   gap:9px;padding-top:10px;
+  gap:9px;padding:15px;
 }
-.big-tap{
-   width:68%;max-width:260px;padding:13px;
-  text-align:center; font-weight:800; font-size:16px; letter-spacing:0.5px;
-   color:#191919;background:var(--accent);border-radius:12px;box-shadow:0 5px 16px rgba(255,207,74,.16);
-  cursor:pointer;
-  transition: transform 0.08s;
-}
-.big-tap:active{ transform: scale(0.96); }
-.stats-row{
-  display:flex; gap:10px;
-}
+.stats-row{display:flex; gap:10px;}
 .pill{
   font-size:11px; padding:6px 12px; border-radius:14px;
-   background:rgba(255,255,255,.06);border:1px solid var(--line);color:var(--muted);
+  background:rgba(255,255,255,.06);border:1px solid var(--line);color:var(--muted);
 }
 .footer-note{
-   font-size:10px;color:var(--muted);margin-top:3px;text-align:center;padding:0 20px;
+  font-size:10px;color:var(--muted);text-align:center;
 }
