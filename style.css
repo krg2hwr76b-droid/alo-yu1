@@ -55,13 +55,13 @@ html,body{
   z-index:15;
 }
 
-/* Тело - центр */
+/* Тело - центр (уменьшено на 10% и опущено на 2см) */
 .part-body{
-  top:140px;
+  top:165px;
   left:50%;
-  width:160px;
-  height:160px;
-  margin-left:-80px;
+  width:144px;
+  height:144px;
+  margin-left:-72px;
   z-index:10;
 }
 
@@ -83,9 +83,9 @@ html,body{
   z-index:8;
 }
 
-/* Ноги - нижняя часть (увеличены!) */
+/* Ноги - нижняя часть (поднято чтобы соединиться с телом) */
 .part-legs{
-  bottom:0;
+  bottom:26px;
   left:50%;
   width:180px;
   height:180px;
