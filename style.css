@@ -87,8 +87,8 @@ html,body{
 .part-legs{
   bottom:26px;
   left:50%;
-  width:180px;
-  height:230px;
+  width:160px;
+  height:200px;
   margin-left:-90px;
   z-index:5;
 }
