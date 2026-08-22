@@ -45,8 +45,9 @@ html,body{
   display:block;
 }
 
+/* Голова - верхняя часть */
 .part-head{
-  top:-10px;
+  top:0;
   left:50%;
   width:140px;
   height:140px;
@@ -54,37 +55,41 @@ html,body{
   z-index:15;
 }
 
+/* Тело - центр */
 .part-body{
-  top:100px;
+  top:130px;
   left:50%;
   width:180px;
-  height:220px;
+  height:180px;
   margin-left:-90px;
   z-index:10;
 }
 
+/* Левая рука */
 .part-arm-left{
-  top:90px;
-  left:0;
-  width:120px;
-  height:180px;
+  top:120px;
+  left:20px;
+  width:100px;
+  height:150px;
   z-index:8;
 }
 
+/* Правая рука */
 .part-arm-right{
-  top:90px;
-  right:0;
-  width:120px;
-  height:180px;
+  top:120px;
+  right:20px;
+  width:100px;
+  height:150px;
   z-index:8;
 }
 
+/* Ноги - нижняя часть */
 .part-legs{
-  bottom:10px;
+  bottom:0;
   left:50%;
-  width:160px;
-  height:160px;
-  margin-left:-80px;
+  width:140px;
+  height:140px;
+  margin-left:-70px;
   z-index:5;
 }
 
