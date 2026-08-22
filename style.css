@@ -57,10 +57,10 @@ html,body{
 
 /* Тело - ровно под головой */
 .part-body{
-  top:140px;
+  top:180px;
   left:50%;
   width:144px;
-  height:80px;
+  height:130px;
   margin-left:-72px;
   z-index:10;
 }
