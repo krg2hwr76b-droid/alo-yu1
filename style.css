@@ -57,7 +57,7 @@ html,body{
 
 /* Тело - ровно под головой */
 .part-body{
-  top:155px;
+  top:110px;
   left:50%;
   width:144px;
   height:110px;
